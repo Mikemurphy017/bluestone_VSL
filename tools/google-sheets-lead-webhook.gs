@@ -19,6 +19,16 @@ var COLUMNS = [
   'fbclid', 'li_fat_id', 'source', 'page_url'
 ];
 
+// Open the /exec URL in a browser to check the setup.
+function doGet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var msg = ss
+    ? 'OK: lead webhook is live and connected to the sheet "' + ss.getName() + '".'
+    : 'NOT CONNECTED: this script is not attached to a Google Sheet. ' +
+      'Open your sheet, go to Extensions > Apps Script, paste the script there, and deploy it from there.';
+  return ContentService.createTextOutput(msg);
+}
+
 function doPost(e) {
   var lock = LockService.getScriptLock();
   lock.waitLock(10000);
