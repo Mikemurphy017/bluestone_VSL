@@ -25,8 +25,15 @@
   <script src="assets/tracking.js"></script>
   <script>
     window.VSL_CONFIG = {
-      // Where the "Book A Demo Call" button goes
-      bookingUrl: "https://calendly.com/mikemurphybsp"
+      // Where the "Book A Demo Call" button goes (after the lead form)
+      bookingUrl: "https://calendly.com/mikemurphybsp",
+      // Webhook that receives each lead (name, email, phone, UTMs) the moment
+      // the form is submitted, whether or not they go on to book.
+      // e.g. a Zapier "Catch Hook" URL: "https://hooks.zapier.com/hooks/catch/123/abc/"
+      leadWebhookUrl: "",
+      // Calendly custom-question field the phone number fills.
+      // "a1" = the first custom question on the event type ("Phone number").
+      calendlyPhoneField: "a1"
     };
   </script>
 
@@ -117,6 +124,43 @@
     .cta svg { width: 20px; height: 20px; flex: none; }
     .cta-note { margin-top: 14px; font-size: 14px; color: var(--muted); }
 
+    /* ---------- Lead form modal ---------- */
+    .modal {
+      border: 0; padding: 0; margin: auto;
+      width: min(480px, calc(100% - 32px));
+      border-radius: 18px;
+      background: #fff; color: var(--ink);
+      box-shadow: 0 40px 80px -20px rgba(15, 23, 42, 0.5);
+    }
+    .modal::backdrop { background: rgba(6, 8, 20, 0.72); backdrop-filter: blur(2px); }
+    .modal-body { padding: 36px 32px 28px; position: relative; }
+    .modal-close {
+      position: absolute; top: 12px; right: 12px;
+      width: 36px; height: 36px; border: 0; border-radius: 50%;
+      background: #f3f4f6; color: #374151; font-size: 22px; line-height: 1; cursor: pointer;
+    }
+    .modal-close:hover { background: #e5e7eb; }
+    .modal-step { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); }
+    .modal h2 { margin-top: 8px; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+    .modal h2 .hl { background: linear-gradient(transparent 62%, rgba(250, 204, 21, 0.55) 62%); }
+    .modal p.sub { margin-top: 8px; color: var(--muted); font-size: 15px; }
+    .field { margin-top: 16px; text-align: left; }
+    .field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .field input {
+      width: 100%; font: inherit; font-size: 16px;
+      padding: 13px 14px; border: 1.5px solid #d1d5db; border-radius: 10px;
+      background: #fff; color: var(--ink);
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .field input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(47, 79, 216, 0.18); }
+    .field input[aria-invalid="true"] { border-color: var(--red); }
+    .field .err { display: none; margin-top: 6px; font-size: 13px; color: var(--red); }
+    .field input[aria-invalid="true"] + .err { display: block; }
+    .modal .cta { margin-top: 24px; max-width: none; font-size: 20px; padding: 16px 24px; border: 0; cursor: pointer; font-family: inherit; }
+    .modal .cta[disabled] { opacity: .7; cursor: wait; }
+    .privacy-note { margin-top: 14px; font-size: 12.5px; color: #6b7280; text-align: center; }
+    .privacy-note a { color: inherit; }
+
     /* ---------- Footer ---------- */
     footer {
       background: var(--footer);
@@ -155,6 +199,7 @@
       .subhead { margin-top: 20px; }
       .video-wrap { margin-top: 28px; border-radius: 10px; }
       .cta { padding: 16px 28px; margin-top: 28px; }
+      .modal-body { padding: 32px 20px 22px; }
       .footer-grid { grid-template-columns: 1fr; gap: 24px; }
     }
   </style>
@@ -181,12 +226,43 @@
     <div class="sound-note">🔊 Make sure your sound is on</div>
 
     <div>
-      <a class="cta" id="ctaBtn" href="https://calendly.com/mikemurphybsp" target="_blank" rel="noopener">
+      <a class="cta" id="ctaBtn" href="https://calendly.com/mikemurphybsp">
         Book A Demo Call
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
   </main>
+
+  <dialog class="modal" id="leadModal" aria-labelledby="leadTitle">
+    <form class="modal-body" id="leadForm" novalidate>
+      <button class="modal-close" type="button" id="leadClose" aria-label="Close">×</button>
+      <div class="modal-step">Step 1 of 2</div>
+      <h2 id="leadTitle">Where should we send your <span class="hl">call details?</span></h2>
+      <p class="sub">Next, you'll pick a time that works for you.</p>
+
+      <div class="field">
+        <label for="leadName">Full name</label>
+        <input id="leadName" name="name" type="text" autocomplete="name" required />
+        <div class="err">Please enter your name.</div>
+      </div>
+      <div class="field">
+        <label for="leadEmail">Email</label>
+        <input id="leadEmail" name="email" type="email" autocomplete="email" inputmode="email" required />
+        <div class="err">Please enter a valid email.</div>
+      </div>
+      <div class="field">
+        <label for="leadPhone">Phone</label>
+        <input id="leadPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+        <div class="err">Please enter a valid phone number.</div>
+      </div>
+
+      <button class="cta" type="submit" id="leadSubmit">
+        Choose A Time
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <p class="privacy-note">We respect your privacy. See our <a href="legal.html#privacy" target="_blank">Privacy Policy</a>.</p>
+    </form>
+  </dialog>
 
   <footer>
     <div class="footer-inner">
@@ -237,15 +313,114 @@
         if (window.fbq) window.fbq('track', event, params || {});
       }
 
-      // Carry Facebook ad UTM params through to the booking page
-      if (cfg.bookingUrl) {
+      // ---------- Lead capture → Calendly ----------
+      var modal = document.getElementById('leadModal');
+      var form = document.getElementById('leadForm');
+      var f = { name: form.elements.name, email: form.elements.email, phone: form.elements.phone };
+      var STORE = 'tt_lead';
+
+      // Ad tracking params from the landing URL (utm_*, fbclid, li_fat_id)
+      var adParams = {};
+      new URLSearchParams(location.search).forEach(function (v, k) {
+        if (/^utm_|^fbclid$|^li_fat_id$/.test(k)) adParams[k] = v;
+      });
+
+      function bookingUrl(lead) {
         var url = new URL(cfg.bookingUrl);
-        new URLSearchParams(location.search).forEach(function (v, k) {
-          if (/^utm_|^fbclid$/.test(k)) url.searchParams.set(k, v);
-        });
-        cta.href = url.toString();
+        Object.keys(adParams).forEach(function (k) { url.searchParams.set(k, adParams[k]); });
+        if (lead) {
+          var parts = lead.name.split(/\s+/);
+          url.searchParams.set('name', lead.name);
+          url.searchParams.set('first_name', parts[0]);
+          if (parts.length > 1) url.searchParams.set('last_name', parts.slice(1).join(' '));
+          url.searchParams.set('email', lead.email);
+          if (cfg.calendlyPhoneField) url.searchParams.set(cfg.calendlyPhoneField, lead.phoneE164);
+        }
+        return url.toString();
       }
-      cta.addEventListener('click', function () { track('Lead', { content_name: 'Book A Demo Call' }); });
+      cta.href = bookingUrl(null); // no-JS fallback
+
+      // Returning visitor: pre-fill what they typed last time
+      try {
+        var saved = JSON.parse(localStorage.getItem(STORE) || 'null');
+        if (saved) { f.name.value = saved.name || ''; f.email.value = saved.email || ''; f.phone.value = saved.phone || ''; }
+      } catch (e) {}
+
+      function openModal(e) {
+        if (!modal.showModal) return; // very old browser: follow the link
+        e.preventDefault();
+        modal.showModal();
+        (f.name.value ? (f.email.value ? (f.phone.value ? document.getElementById('leadSubmit') : f.phone) : f.email) : f.name).focus();
+        track('InitiateCheckout', { content_name: 'Book A Demo Call' });
+      }
+      cta.addEventListener('click', openModal);
+      document.getElementById('leadClose').addEventListener('click', function () { modal.close(); });
+      modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
+
+      function toE164(raw) {
+        var d = raw.replace(/\D/g, '');
+        if (raw.trim().charAt(0) === '+') return '+' + d;
+        if (d.length === 10) return '+1' + d;
+        if (d.length === 11 && d.charAt(0) === '1') return '+' + d;
+        return '+' + d;
+      }
+      function check(input, ok) { input.setAttribute('aria-invalid', ok ? 'false' : 'true'); return ok; }
+      function validate() {
+        var digits = f.phone.value.replace(/\D/g, '');
+        var ok = [
+          check(f.name, f.name.value.trim().length >= 2),
+          check(f.email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim())),
+          check(f.phone, digits.length >= 10 && digits.length <= 15)
+        ];
+        var firstBad = [f.name, f.email, f.phone][ok.indexOf(false)];
+        if (firstBad) firstBad.focus();
+        return ok.indexOf(false) === -1;
+      }
+      ['name', 'email', 'phone'].forEach(function (k) {
+        f[k].addEventListener('input', function () { f[k].removeAttribute('aria-invalid'); });
+      });
+
+      function sendLead(lead) {
+        if (!cfg.leadWebhookUrl) return;
+        var body = new URLSearchParams();
+        body.set('name', lead.name);
+        body.set('first_name', lead.name.split(/\s+/)[0]);
+        body.set('last_name', lead.name.split(/\s+/).slice(1).join(' '));
+        body.set('email', lead.email);
+        body.set('phone', lead.phoneE164);
+        body.set('source', 'TextTonality VSL');
+        body.set('page_url', location.origin + location.pathname);
+        body.set('submitted_at', new Date().toISOString());
+        Object.keys(adParams).forEach(function (k) { body.set(k, adParams[k]); });
+        // Form-encoded + no-cors: no CORS preflight, and keepalive lets the
+        // request finish even though we navigate to Calendly right after.
+        try {
+          fetch(cfg.leadWebhookUrl, { method: 'POST', mode: 'no-cors', keepalive: true, body: body });
+        } catch (e) {
+          if (navigator.sendBeacon) navigator.sendBeacon(cfg.leadWebhookUrl, body);
+        }
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!validate()) return;
+        var lead = {
+          name: f.name.value.trim().replace(/\s+/g, ' '),
+          email: f.email.value.trim(),
+          phone: f.phone.value.trim()
+        };
+        lead.phoneE164 = toE164(lead.phone);
+        try { localStorage.setItem(STORE, JSON.stringify({ name: lead.name, email: lead.email, phone: lead.phone })); } catch (err) {}
+
+        document.getElementById('leadSubmit').disabled = true;
+        sendLead(lead);
+        track('Lead', { content_name: 'Book A Demo Call' });
+        // Short pause so the webhook and pixel requests get out the door
+        setTimeout(function () { location.href = bookingUrl(lead); }, 350);
+      });
+
+      // Back-button from Calendly: re-enable the form
+      window.addEventListener('pageshow', function () { document.getElementById('leadSubmit').disabled = false; });
 
       // Pixel events from the Wistia player
       var played = false, finished = false;
