@@ -26,14 +26,16 @@
   <script>
     window.VSL_CONFIG = {
       // Where the "Book A Demo Call" button goes (after the lead form)
-      bookingUrl: "https://calendly.com/mikemurphybsp",
+      bookingUrl: "https://calendly.com/danny-bluestonepartnersllc/15mins",
       // Webhook that receives each lead (name, email, phone, UTMs) the moment
       // the form is submitted, whether or not they go on to book.
       // e.g. a Zapier "Catch Hook" URL: "https://hooks.zapier.com/hooks/catch/123/abc/"
       leadWebhookUrl: "",
-      // Calendly custom-question field the phone number fills.
-      // "a1" = the first custom question on the event type ("Phone number").
-      calendlyPhoneField: "a1"
+      // Calendly field the phone number fills. This event's location is
+      // "Phone call" (we call the invitee), so the number goes in "location".
+      // If an event type instead asks "Phone number" as its first custom
+      // question, use "a1" ("a2" for the second question, etc.).
+      calendlyPhoneField: "location"
     };
   </script>
 
@@ -226,7 +228,7 @@
     <div class="sound-note">🔊 Make sure your sound is on</div>
 
     <div>
-      <a class="cta" id="ctaBtn" href="https://calendly.com/mikemurphybsp">
+      <a class="cta" id="ctaBtn" href="https://calendly.com/danny-bluestonepartnersllc/15mins">
         Book A Demo Call
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
