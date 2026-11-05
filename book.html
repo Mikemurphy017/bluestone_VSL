@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Book Your Call | TextTonality®</title>
+
+  <!-- Tracking: Meta Pixel + LinkedIn Insight Tag (IDs live in assets/tracking.js) -->
+  <script src="assets/tracking.js"></script>
+  <script>
+    window.BOOK_CONFIG = {
+      // Calendly event embedded on this page
+      calendlyUrl: "https://calendly.com/danny-bluestonepartnersllc/15mins",
+      // Calendly field the phone number fills. This event's location is
+      // "Phone call" (we call the invitee), so the number goes in "location".
+      // If an event type instead asks "Phone number" as its first custom
+      // question, use "a1" ("a2" for the second question, etc.).
+      calendlyPhoneField: "location",
+      // Where to send people once they've booked
+      thankYouPage: "thank-you.html"
+    };
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://assets.calendly.com" />
+
+  <style>
+    :root {
+      --ink: #0a0a0a;
+      --muted: #4b5563;
+      --yellow: #facc15;
+      --red: #dc2626;
+      --footer: #060814;
+      --footer-text: #c7cad3;
+      --footer-muted: #8b8f9c;
+      --maxw: 1120px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink); background: #fff; line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .hero {
+      background: linear-gradient(180deg, #f6f7f9 0%, #ffffff 40%);
+      padding: 48px 16px 80px; text-align: center;
+    }
+    .step { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); }
+    .progress {
+      width: 220px; height: 6px; margin: 12px auto 0;
+      background: #e5e7eb; border-radius: 999px; overflow: hidden;
+    }
+    .progress span { display: block; height: 100%; width: 66%; background: var(--red); border-radius: inherit; }
+    h1 {
+      margin-top: 22px;
+      font-weight: 800; letter-spacing: -0.03em; line-height: 1.12;
+      font-size: clamp(30px, 4.4vw, 56px);
+    }
+    h1 .hl { color: var(--yellow); }
+    .lead { max-width: 640px; margin: 16px auto 0; color: var(--muted); font-size: clamp(16px, 2vw, 19px); }
+    .facts {
+      list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px;
+      margin-top: 20px; font-size: 15px; font-weight: 600; color: #374151;
+    }
+    .facts li::before { content: "✓"; color: #16a34a; font-weight: 800; margin-right: 6px; }
+
+    .calendar {
+      max-width: 1020px; margin: 32px auto 0;
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 30px 60px -24px rgba(15, 23, 42, 0.3), 0 0 0 1px rgba(15, 23, 42, 0.06);
+    }
+    .calendly-inline-widget { min-width: 320px; height: 700px; }
+    .help { margin-top: 22px; font-size: 14px; color: var(--muted); }
+    .help a { color: var(--ink); font-weight: 600; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      background: var(--footer);
+      color: var(--footer-text);
+      padding: 44px 16px 40px;
+    }
+    .footer-inner { max-width: var(--maxw); margin: 0 auto; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .brand { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+    .brand sup { color: var(--yellow); font-size: 0.6em; top: -0.55em; position: relative; vertical-align: baseline; }
+    .footer-grid p, .footer-grid li { font-size: 16px; line-height: 1.75; }
+    .footer-grid .muted { color: var(--footer-text); margin-top: 6px; }
+    .footer-grid h4 { color: #fff; font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .footer-grid ul { list-style: none; }
+    .footer-grid a { text-decoration: none; }
+    .footer-grid a:hover { color: #fff; text-decoration: underline; }
+    .phone { color: var(--yellow); font-weight: 700; }
+    .phone:hover { color: var(--yellow) !important; }
+    .disclaimer {
+      margin-top: 26px;
+      font-size: 13px; line-height: 1.6;
+      color: var(--footer-muted);
+      max-width: 1000px;
+    }
+    .copyright { margin-top: 14px; font-size: 13px; color: var(--footer-muted); }
+
+    @media (max-width: 760px) {
+      .hero { padding: 32px 0 56px; }
+      .hero > :not(.calendar) { padding-left: 16px; padding-right: 16px; }
+      .calendar { border-radius: 0; box-shadow: none; border-top: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; }
+      .calendly-inline-widget { height: 1020px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=8810122&fmt=gif" /></noscript>
+
+  <main class="hero">
+    <div class="step">Step 2 of 2</div>
+    <div class="progress" aria-hidden="true"><span></span></div>
+    <h1 id="title">Pick A Time For Your <span class="hl">Intro Call</span></h1>
+    <p class="lead">A quick 15-minute phone call to see if TextTonality® is a fit for your practice, and how we'd book 30 meetings with pre-liquidity prospects on your calendar in six months.</p>
+    <ul class="facts">
+      <li>15 minutes</li>
+      <li>We call you</li>
+      <li>No obligation</li>
+    </ul>
+
+    <div class="calendar">
+      <!-- Calendly inline widget (data-url is filled in by the script below) -->
+      <div class="calendly-inline-widget" id="calendly" data-url="https://calendly.com/danny-bluestonepartnersllc/15mins"></div>
+    </div>
+
+    <p class="help">Don't see a time that works? Call or text <a href="tel:+19412073350">(941) 207-3350</a> or email <a href="mailto:mike@bluestonepartnersllc.com">mike@bluestonepartnersllc.com</a>.</p>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="brand">TextTonality<sup>®</sup></div>
+          <p class="muted">Legal Business Name: Bluestone Partners LLC</p>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:mike@bluestonepartnersllc.com">mike@bluestonepartnersllc.com</a></li>
+            <li><a class="phone" href="tel:+19412073350">(941) 207-3350</a></li>
+            <li>2 West Market Street, West Chester PA 19382</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="legal.html#privacy">Privacy Policy</a></li>
+            <li><a href="legal.html#terms">Terms of Service</a></li>
+            <li><a href="legal.html#cookies">Cookie Policy</a></li>
+            <li><a href="legal.html#cookie-settings">Cookie Settings</a></li>
+            <li><a href="legal.html#earnings">Earnings Disclaimer</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="disclaimer">
+        Disclaimer: TextTonality is an independent marketing and business development support service.
+        We are not a registered investment advisor (RIA), broker-dealer, or financial institution. Our
+        services are strictly intended for business-to-business (B2B) prospecting and consultation
+        scheduling. This site is not a part of the Meta, Facebook, or Instagram websites or Meta, Inc.
+        Additionally, this site is NOT endorsed by Meta in any way. FACEBOOK is a trademark of META, Inc.
+      </p>
+      <p class="copyright">© <span id="year">2026</span> TextTonality. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var cfg = window.BOOK_CONFIG;
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Lead details from the popup on the video page (never put in this page's URL)
+      var lead = null;
+      try { lead = JSON.parse(localStorage.getItem('tt_lead') || 'null'); } catch (e) {}
+
+      // Ad tracking params carried over from the video page
+      var adParams = {};
+      new URLSearchParams(location.search).forEach(function (v, k) {
+        if (/^utm_|^fbclid$|^li_fat_id$/.test(k)) adParams[k] = v;
+      });
+
+      // Build the Calendly URL: pre-fill the visitor's details + pass UTMs
+      var url = new URL(cfg.calendlyUrl);
+      url.searchParams.set('hide_gdpr_banner', '1');
+      Object.keys(adParams).forEach(function (k) { url.searchParams.set(k, adParams[k]); });
+      if (lead && lead.name && lead.email) {
+        var parts = lead.name.split(/\s+/);
+        url.searchParams.set('name', lead.name);
+        url.searchParams.set('first_name', parts[0]);
+        if (parts.length > 1) url.searchParams.set('last_name', parts.slice(1).join(' '));
+        url.searchParams.set('email', lead.email);
+        if (cfg.calendlyPhoneField && lead.phoneE164) url.searchParams.set(cfg.calendlyPhoneField, lead.phoneE164);
+        document.getElementById('title').innerHTML =
+          parts[0].replace(/[<>&"]/g, '') + ', Pick A Time For Your <span class="hl">Intro Call</span>';
+      }
+      document.getElementById('calendly').setAttribute('data-url', url.toString());
+
+      // Load Calendly's widget now that data-url is final
+      var s = document.createElement('script');
+      s.src = 'https://assets.calendly.com/assets/external/widget.js';
+      s.async = true;
+      document.body.appendChild(s);
+
+      // When a meeting is booked inside the embed, go to the Thank You page.
+      // invitee_uuid tells the Thank You page this is a real booking (it then
+      // fires the LinkedIn conversion + Meta Schedule event, once per booking).
+      var done = false;
+      window.addEventListener('message', function (e) {
+        if (done || !/^https:\/\/([a-z0-9-]+\.)?calendly\.com$/.test(e.origin)) return;
+        var d = e.data;
+        if (!d || d.event !== 'calendly.event_scheduled') return;
+        done = true;
+        var p = (d.payload) || {};
+        var inviteeUri = (p.invitee && p.invitee.uri) || '';
+        var next = new URL(cfg.thankYouPage, location.href);
+        next.searchParams.set('invitee_uuid', inviteeUri.split('/').pop() || ('embed-' + Date.now()));
+        if (lead && lead.name) next.searchParams.set('invitee_first_name', lead.name.split(/\s+/)[0]);
+        // Give Calendly a moment to show its own confirmation, then move on
+        setTimeout(function () { location.href = next.toString(); }, 1200);
+      });
+    })();
+  </script>
+</body>
+</html>
