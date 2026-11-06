@@ -8,7 +8,9 @@ window.TRACKING_CONFIG = {
   // LinkedIn Insight Tag partner ID
   linkedinPartnerId: "8810122",
   // LinkedIn conversion fired on the Thank You page (booked call)
-  linkedinBookedCallConversionId: 31854146
+  linkedinBookedCallConversionId: 31854146,
+  // StealthID visitor pixel ID (leave empty to disable)
+  stealthIdPixelId: "91365404"
 };
 
 /* ---------- Meta Pixel ---------- */
@@ -40,4 +42,22 @@ window.TRACKING_CONFIG = {
     b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
     s.parentNode.insertBefore(b, s);
   })(window.lintrk);
+})(window.TRACKING_CONFIG);
+
+/* ---------- StealthID pixel ---------- */
+(function (cfg) {
+  if (!cfg.stealthIdPixelId) return;
+  window.pxfired = function () {
+    PxGrabber.setOptions({ Label: cfg.stealthIdPixelId + "|" + window.location.href });
+    PxGrabber.render();
+  };
+  (function (doc, tag, id) {
+    if (doc.getElementById(id)) return;
+    var js = doc.createElement(tag);
+    js.id = id;
+    js.src = "https://app.getstealthid.com/px.min.js";
+    js.type = "text/javascript";
+    js.onload = function () { window.pxfired(); };
+    doc.head.appendChild(js);
+  })(document, "script", "px-grabber");
 })(window.TRACKING_CONFIG);
