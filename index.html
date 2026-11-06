@@ -428,6 +428,37 @@
         if (engaged) return; engaged = true;
         track('ViewContent', { content_name: 'VSL' });
       });
+      // Restart from the beginning the first time they turn the sound on
+      // (the video autoplays muted, so they'd otherwise miss the opening).
+      var restarted = false, wasMuted = null;
+      function restartWithSound() {
+        if (restarted) return; restarted = true;
+        clearInterval(muteWatch);
+        try { player.currentTime = 0; } catch (e) {}
+        try { if (player.play) player.play(); } catch (e) {}
+      }
+      function checkMute() {
+        var m = player.muted;
+        if (typeof m !== 'boolean') return;
+        if (wasMuted === true && m === false) restartWithSound();
+        wasMuted = m;
+      }
+      ['mute-change', 'volume-change'].forEach(function (ev) { player.addEventListener(ev, checkMute); });
+      var muteWatch = setInterval(checkMute, 250);
+      setTimeout(function () { clearInterval(muteWatch); }, 10 * 60 * 1000);
+      // Backup via Wistia's classic JS API
+      window._wq = window._wq || [];
+      window._wq.push({ id: 'hyazuno8uc', onReady: function (video) {
+        var legacyMuted = video.isMuted && video.isMuted();
+        video.bind('mutechange', function (isMuted) {
+          if (legacyMuted && !isMuted && !restarted) {
+            restarted = true; clearInterval(muteWatch);
+            video.time(0); video.play();
+          }
+          legacyMuted = isMuted;
+        });
+      } });
+
       function onEnd() {
         if (finished) return; finished = true;
         track('CompleteRegistration', { content_name: 'VSL watched' });
