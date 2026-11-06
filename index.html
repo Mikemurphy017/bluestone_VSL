@@ -221,9 +221,11 @@
     </p>
 
     <div class="video-wrap" id="video">
-      <wistia-player id="vsl" media-id="hyazuno8uc" aspect="1.7777777777777777"></wistia-player>
+      <!-- Autoplays. Browsers block autoplay with sound, so silent-auto-play="allow"
+           lets Wistia start it muted with a "Click for sound" button. -->
+      <wistia-player id="vsl" media-id="hyazuno8uc" aspect="1.7777777777777777" autoplay silent-auto-play="allow"></wistia-player>
     </div>
-    <div class="sound-note">🔊 Make sure your sound is on</div>
+    <div class="sound-note">🔊 Tap the video to turn on sound</div>
 
     <div>
       <a class="cta" id="ctaBtn" href="book.html">
@@ -418,9 +420,12 @@
       window.addEventListener('pageshow', function () { document.getElementById('leadSubmit').disabled = false; });
 
       // Pixel events from the Wistia player
-      var played = false, finished = false;
-      player.addEventListener('play', function () {
-        if (played) return; played = true;
+      // The video autoplays muted on every visit, so "play" no longer means
+      // someone chose to watch. Count ViewContent on their first tap/click
+      // on the video (e.g. "Click for sound") instead.
+      var engaged = false, finished = false;
+      document.getElementById('video').addEventListener('pointerdown', function () {
+        if (engaged) return; engaged = true;
         track('ViewContent', { content_name: 'VSL' });
       });
       function onEnd() {
