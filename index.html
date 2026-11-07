@@ -428,19 +428,29 @@
         if (engaged) return; engaged = true;
         track('ViewContent', { content_name: 'VSL' });
       });
-      // Restart from the beginning the first time they turn the sound on
+      // Restart from the beginning the first time the VISITOR turns the sound on
       // (the video autoplays muted, so they'd otherwise miss the opening).
-      var restarted = false, wasMuted = null;
-      function restartWithSound() {
-        if (restarted) return; restarted = true;
+      // Only reacts right after a real click/tap/keypress on the video, so it
+      // never interferes with Wistia's own muted-autoplay logic, and it only
+      // rewinds (never calls play(), which Chrome can block and stall).
+      var restarted = false, wasMuted = null, lastGesture = 0;
+      var videoBox = document.getElementById('video');
+      ['pointerdown', 'touchstart', 'keydown'].forEach(function (ev) {
+        videoBox.addEventListener(ev, function () { lastGesture = Date.now(); }, true);
+      });
+      function userJustActed() { return Date.now() - lastGesture < 2500; }
+      function rewind(seek) {
+        if (restarted) return;
+        restarted = true;
         clearInterval(muteWatch);
-        try { player.currentTime = 0; } catch (e) {}
-        try { if (player.play) player.play(); } catch (e) {}
+        try { seek(); } catch (e) {}
       }
       function checkMute() {
         var m = player.muted;
         if (typeof m !== 'boolean') return;
-        if (wasMuted === true && m === false) restartWithSound();
+        if (wasMuted === true && m === false && userJustActed()) {
+          rewind(function () { player.currentTime = 0; });
+        }
         wasMuted = m;
       }
       ['mute-change', 'volume-change'].forEach(function (ev) { player.addEventListener(ev, checkMute); });
@@ -451,10 +461,7 @@
       window._wq.push({ id: 'hyazuno8uc', onReady: function (video) {
         var legacyMuted = video.isMuted && video.isMuted();
         video.bind('mutechange', function (isMuted) {
-          if (legacyMuted && !isMuted && !restarted) {
-            restarted = true; clearInterval(muteWatch);
-            video.time(0); video.play();
-          }
+          if (legacyMuted && !isMuted && userJustActed()) rewind(function () { video.time(0); });
           legacyMuted = isMuted;
         });
       } });

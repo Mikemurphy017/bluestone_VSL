@@ -48,6 +48,7 @@ window.TRACKING_CONFIG = {
 (function (cfg) {
   if (!cfg.stealthIdPixelId) return;
   window.pxfired = function () {
+    if (typeof window.PxGrabber === "undefined") return; // blocked or failed to load
     PxGrabber.setOptions({ Label: cfg.stealthIdPixelId + "|" + window.location.href });
     PxGrabber.render();
   };
