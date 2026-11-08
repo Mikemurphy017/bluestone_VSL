@@ -10,9 +10,10 @@
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Financial Advisors: Attract HNW Pre-Liquidity Prospects with TextTonality®" />
   <meta property="og:description" content="25 meetings with pre-liquidity prospects in six months, or we work free. Watch the 4-minute video." />
-  <meta property="og:image" content="assets/video-poster.jpg" />
+  <meta property="og:image" content="https://img.youtube.com/vi/yEjS5cadxwU/hqdefault.jpg" />
 
-  <link rel="preconnect" href="https://fast.wistia.com" />
+  <link rel="preconnect" href="https://www.youtube.com" />
+  <link rel="preconnect" href="https://i.ytimg.com" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -84,6 +85,8 @@
     }
 
     /* ---------- Video ---------- */
+    .video-frame { position: relative; aspect-ratio: 16 / 9; }
+    .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .video-wrap {
       max-width: 720px;
       margin: 40px auto 0;
@@ -213,8 +216,10 @@
     </p>
 
     <div class="video-wrap" id="video">
-      <!-- Wistia embed code, exactly as provided by Wistia -->
-      <script src="https://fast.wistia.com/player.js" async></script><script src="https://fast.wistia.com/embed/i5k3l98w9z.js" async type="module"></script><style>wistia-player[media-id='i5k3l98w9z']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/i5k3l98w9z/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style> <wistia-player media-id="i5k3l98w9z" aspect="1.7777777777777777"></wistia-player>
+      <!-- YouTube VSL: https://youtu.be/yEjS5cadxwU -->
+      <div class="video-frame">
+        <iframe id="vsl" src="https://www.youtube.com/embed/yEjS5cadxwU?rel=0&modestbranding=1&playsinline=1&enablejsapi=1" title="TextTonality® video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
     </div>
     <div class="sound-note">🔊 Make sure your sound is on</div>
 
@@ -298,7 +303,6 @@
   <script>
     (function () {
       var cfg = window.VSL_CONFIG || {};
-      var player = document.querySelector('wistia-player');
       var cta = document.getElementById('ctaBtn');
       document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -410,18 +414,23 @@
       // Back-button from Calendly: re-enable the form
       window.addEventListener('pageshow', function () { document.getElementById('leadSubmit').disabled = false; });
 
-      // Pixel events from the Wistia player
+      // Pixel events from the YouTube player (via the YouTube IFrame API)
       var played = false, finished = false;
-      player.addEventListener('play', function () {
-        if (played) return; played = true;
-        track('ViewContent', { content_name: 'VSL' });
-      });
-      function onEnd() {
-        if (finished) return; finished = true;
-        track('CompleteRegistration', { content_name: 'VSL watched' });
-      }
-      player.addEventListener('end', onEnd);
-      player.addEventListener('ended', onEnd);
+      var prevReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = function () {
+        if (prevReady) prevReady();
+        new YT.Player('vsl', { events: { onStateChange: function (e) {
+          if (e.data === YT.PlayerState.PLAYING && !played) {
+            played = true; track('ViewContent', { content_name: 'VSL' });
+          }
+          if (e.data === YT.PlayerState.ENDED && !finished) {
+            finished = true; track('CompleteRegistration', { content_name: 'VSL watched' });
+          }
+        } } });
+      };
+      var yt = document.createElement('script');
+      yt.src = 'https://www.youtube.com/iframe_api';
+      document.body.appendChild(yt);
     })();
   </script>
 </body>
