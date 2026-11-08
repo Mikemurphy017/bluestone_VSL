@@ -95,7 +95,6 @@
       background: #000;
       box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.35), 0 12px 24px -12px rgba(15, 23, 42, 0.2);
     }
-    .video-wrap wistia-player { display: block; width: 100%; }
     wistia-player[media-id='hyazuno8uc']:not(:defined) {
       background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/hyazuno8uc/swatch');
       display: block; filter: blur(5px); padding-top: 56.25%;
@@ -221,11 +220,9 @@
     </p>
 
     <div class="video-wrap" id="video">
-      <!-- Autoplays. Browsers block autoplay with sound, so silent-auto-play="allow"
-           lets Wistia start it muted with a "Click for sound" button. -->
-      <wistia-player id="vsl" media-id="hyazuno8uc" aspect="1.7777777777777777" autoplay silent-auto-play="allow"></wistia-player>
+      <wistia-player id="vsl" media-id="hyazuno8uc" aspect="1.7777777777777777"></wistia-player>
     </div>
-    <div class="sound-note">🔊 Tap the video to turn on sound</div>
+    <div class="sound-note">🔊 Make sure your sound is on</div>
 
     <div>
       <a class="cta" id="ctaBtn" href="book.html">
@@ -420,52 +417,11 @@
       window.addEventListener('pageshow', function () { document.getElementById('leadSubmit').disabled = false; });
 
       // Pixel events from the Wistia player
-      // The video autoplays muted on every visit, so "play" no longer means
-      // someone chose to watch. Count ViewContent on their first tap/click
-      // on the video (e.g. "Click for sound") instead.
-      var engaged = false, finished = false;
-      document.getElementById('video').addEventListener('pointerdown', function () {
-        if (engaged) return; engaged = true;
+      var played = false, finished = false;
+      player.addEventListener('play', function () {
+        if (played) return; played = true;
         track('ViewContent', { content_name: 'VSL' });
       });
-      // Restart from the beginning the first time the VISITOR turns the sound on
-      // (the video autoplays muted, so they'd otherwise miss the opening).
-      // Only reacts right after a real click/tap/keypress on the video, so it
-      // never interferes with Wistia's own muted-autoplay logic, and it only
-      // rewinds (never calls play(), which Chrome can block and stall).
-      var restarted = false, wasMuted = null, lastGesture = 0;
-      var videoBox = document.getElementById('video');
-      ['pointerdown', 'touchstart', 'keydown'].forEach(function (ev) {
-        videoBox.addEventListener(ev, function () { lastGesture = Date.now(); }, true);
-      });
-      function userJustActed() { return Date.now() - lastGesture < 2500; }
-      function rewind(seek) {
-        if (restarted) return;
-        restarted = true;
-        clearInterval(muteWatch);
-        try { seek(); } catch (e) {}
-      }
-      function checkMute() {
-        var m = player.muted;
-        if (typeof m !== 'boolean') return;
-        if (wasMuted === true && m === false && userJustActed()) {
-          rewind(function () { player.currentTime = 0; });
-        }
-        wasMuted = m;
-      }
-      ['mute-change', 'volume-change'].forEach(function (ev) { player.addEventListener(ev, checkMute); });
-      var muteWatch = setInterval(checkMute, 250);
-      setTimeout(function () { clearInterval(muteWatch); }, 10 * 60 * 1000);
-      // Backup via Wistia's classic JS API
-      window._wq = window._wq || [];
-      window._wq.push({ id: 'hyazuno8uc', onReady: function (video) {
-        var legacyMuted = video.isMuted && video.isMuted();
-        video.bind('mutechange', function (isMuted) {
-          if (legacyMuted && !isMuted && userJustActed()) rewind(function () { video.time(0); });
-          legacyMuted = isMuted;
-        });
-      } });
-
       function onEnd() {
         if (finished) return; finished = true;
         track('CompleteRegistration', { content_name: 'VSL watched' });
