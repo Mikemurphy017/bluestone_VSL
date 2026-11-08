@@ -12,10 +12,7 @@
   <meta property="og:description" content="25 meetings with pre-liquidity prospects in six months, or we work free. Watch the 4-minute video." />
   <meta property="og:image" content="assets/video-poster.jpg" />
 
-  <!-- Wistia VSL player -->
   <link rel="preconnect" href="https://fast.wistia.com" />
-  <script src="https://fast.wistia.com/player.js" async></script>
-  <script src="https://fast.wistia.com/embed/hyazuno8uc.js" async type="module"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -94,10 +91,6 @@
       overflow: hidden;
       background: #000;
       box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.35), 0 12px 24px -12px rgba(15, 23, 42, 0.2);
-    }
-    wistia-player[media-id='hyazuno8uc']:not(:defined) {
-      background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/hyazuno8uc/swatch');
-      display: block; filter: blur(5px); padding-top: 56.25%;
     }
     .sound-note {
       margin-top: 14px; font-size: 14px; color: var(--muted);
@@ -220,7 +213,8 @@
     </p>
 
     <div class="video-wrap" id="video">
-      <wistia-player id="vsl" media-id="hyazuno8uc" aspect="1.7777777777777777"></wistia-player>
+      <!-- Wistia embed code, exactly as provided by Wistia -->
+      <script src="https://fast.wistia.com/player.js" async></script><script src="https://fast.wistia.com/embed/hyazuno8uc.js" async type="module"></script><style>wistia-player[media-id='hyazuno8uc']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/hyazuno8uc/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style> <wistia-player media-id="hyazuno8uc" aspect="1.7777777777777777"></wistia-player>
     </div>
     <div class="sound-note">🔊 Make sure your sound is on</div>
 
@@ -304,7 +298,7 @@
   <script>
     (function () {
       var cfg = window.VSL_CONFIG || {};
-      var player = document.getElementById('vsl');
+      var player = document.querySelector('wistia-player');
       var cta = document.getElementById('ctaBtn');
       document.getElementById('year').textContent = new Date().getFullYear();
 

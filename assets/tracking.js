@@ -8,19 +8,17 @@ window.TRACKING_CONFIG = {
   // LinkedIn Insight Tag partner ID
   linkedinPartnerId: "8810122",
   // LinkedIn conversion fired on the Thank You page (booked call)
-  linkedinBookedCallConversionId: 31854146,
-  // StealthID visitor pixel ID (leave empty to disable)
-  stealthIdPixelId: "91365404"
+  linkedinBookedCallConversionId: 31854146
 };
 
 /*
- * Troubleshooting switch: add ?nopx=stealth to a page address to load it
- * without StealthID, or ?nopx=all to load it without any tracking scripts.
+ * Troubleshooting switch: add ?nopx=all to a page address to load it
+ * without any tracking scripts.
  */
 (function (cfg) {
-  var off = new URLSearchParams(location.search).get("nopx");
-  if (off === "stealth" || off === "all") cfg.stealthIdPixelId = "";
-  if (off === "all") { cfg.metaPixelId = ""; cfg.linkedinPartnerId = ""; }
+  if (new URLSearchParams(location.search).get("nopx") === "all") {
+    cfg.metaPixelId = ""; cfg.linkedinPartnerId = "";
+  }
 })(window.TRACKING_CONFIG);
 
 /* ---------- Meta Pixel ---------- */
@@ -54,21 +52,3 @@ window.TRACKING_CONFIG = {
   })(window.lintrk);
 })(window.TRACKING_CONFIG);
 
-/* ---------- StealthID pixel ---------- */
-(function (cfg) {
-  if (!cfg.stealthIdPixelId) return;
-  window.pxfired = function () {
-    if (typeof window.PxGrabber === "undefined") return; // blocked or failed to load
-    PxGrabber.setOptions({ Label: cfg.stealthIdPixelId + "|" + window.location.href });
-    PxGrabber.render();
-  };
-  (function (doc, tag, id) {
-    if (doc.getElementById(id)) return;
-    var js = doc.createElement(tag);
-    js.id = id;
-    js.src = "https://app.getstealthid.com/px.min.js";
-    js.type = "text/javascript";
-    js.onload = function () { window.pxfired(); };
-    doc.head.appendChild(js);
-  })(document, "script", "px-grabber");
-})(window.TRACKING_CONFIG);
