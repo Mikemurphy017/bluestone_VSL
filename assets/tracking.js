@@ -13,6 +13,16 @@ window.TRACKING_CONFIG = {
   stealthIdPixelId: "91365404"
 };
 
+/*
+ * Troubleshooting switch: add ?nopx=stealth to a page address to load it
+ * without StealthID, or ?nopx=all to load it without any tracking scripts.
+ */
+(function (cfg) {
+  var off = new URLSearchParams(location.search).get("nopx");
+  if (off === "stealth" || off === "all") cfg.stealthIdPixelId = "";
+  if (off === "all") { cfg.metaPixelId = ""; cfg.linkedinPartnerId = ""; }
+})(window.TRACKING_CONFIG);
+
 /* ---------- Meta Pixel ---------- */
 (function (cfg) {
   if (!cfg.metaPixelId) return;
