@@ -87,6 +87,25 @@
     /* ---------- Video ---------- */
     .video-frame { position: relative; aspect-ratio: 16 / 9; }
     .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .sound-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      border: 0; padding: 0; margin: 0; cursor: pointer;
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sound-overlay[hidden] { display: none; }
+    .sound-pill {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--red); color: #fff;
+      font: 700 clamp(16px, 2.2vw, 22px)/1 "Inter", system-ui, sans-serif;
+      padding: 16px 26px; border-radius: 999px;
+      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.55);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    .sound-pill svg { width: 26px; height: 26px; }
+    .sound-overlay:hover .sound-pill { background: var(--red-dark); }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+    @media (prefers-reduced-motion: reduce) { .sound-pill { animation: none; } }
     .video-wrap {
       max-width: 720px;
       margin: 40px auto 0;
@@ -218,10 +237,16 @@
     <div class="video-wrap" id="video">
       <!-- YouTube VSL: https://youtu.be/yEjS5cadxwU -->
       <div class="video-frame">
-        <iframe id="vsl" src="https://www.youtube.com/embed/yEjS5cadxwU?rel=0&modestbranding=1&playsinline=1&enablejsapi=1" title="TextTonality® video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe id="vsl" src="https://www.youtube.com/embed/yEjS5cadxwU?autoplay=1&mute=1&cc_load_policy=0&iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&enablejsapi=1" title="TextTonality® video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <button class="sound-overlay" id="soundOverlay" type="button" hidden aria-label="Turn on sound and play from the beginning">
+          <span class="sound-pill">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Click for sound
+          </span>
+        </button>
       </div>
     </div>
-    <div class="sound-note">🔊 Make sure your sound is on</div>
+    <div class="sound-note">🔊 Click the video to turn on sound</div>
 
     <div>
       <a class="cta" id="ctaBtn" href="book.html">
@@ -414,19 +439,54 @@
       // Back-button from Calendly: re-enable the form
       window.addEventListener('pageshow', function () { document.getElementById('leadSubmit').disabled = false; });
 
-      // Pixel events from the YouTube player (via the YouTube IFrame API)
-      var played = false, finished = false;
+      // YouTube player: muted autoplay, captions off, "Click for sound" restarts
+      // from the beginning with sound, plus Meta pixel events.
+      var ytPlayer = null, viewed = false, finished = false, soundOn = false;
+      var overlay = document.getElementById('soundOverlay');
+
+      function captionsOff() {
+        try { ytPlayer.unloadModule('captions'); } catch (e) {}
+        try { ytPlayer.unloadModule('cc'); } catch (e) {}
+      }
+      function markViewed() {
+        if (viewed) return; viewed = true;
+        track('ViewContent', { content_name: 'VSL' });
+      }
+      function hideOverlay() { overlay.hidden = true; }
+
+      overlay.addEventListener('click', function () {
+        if (!ytPlayer) return;
+        soundOn = true;
+        hideOverlay();
+        ytPlayer.unMute();
+        ytPlayer.setVolume(100);
+        ytPlayer.seekTo(0, true);
+        ytPlayer.playVideo();
+        markViewed();
+      });
+
       var prevReady = window.onYouTubeIframeAPIReady;
       window.onYouTubeIframeAPIReady = function () {
         if (prevReady) prevReady();
-        new YT.Player('vsl', { events: { onStateChange: function (e) {
-          if (e.data === YT.PlayerState.PLAYING && !played) {
-            played = true; track('ViewContent', { content_name: 'VSL' });
+        ytPlayer = new YT.Player('vsl', { events: {
+          onReady: function () {
+            captionsOff();
+            if (ytPlayer.isMuted()) overlay.hidden = false;
+            // If they unmute with YouTube's own controls, drop our button
+            var watch = setInterval(function () {
+              if (soundOn || !ytPlayer.isMuted()) { soundOn = true; hideOverlay(); clearInterval(watch); }
+            }, 500);
+          },
+          onStateChange: function (e) {
+            if (e.data === YT.PlayerState.PLAYING) {
+              captionsOff();
+              if (!ytPlayer.isMuted()) markViewed();
+            }
+            if (e.data === YT.PlayerState.ENDED && !finished) {
+              finished = true; track('CompleteRegistration', { content_name: 'VSL watched' });
+            }
           }
-          if (e.data === YT.PlayerState.ENDED && !finished) {
-            finished = true; track('CompleteRegistration', { content_name: 'VSL watched' });
-          }
-        } } });
+        } });
       };
       var yt = document.createElement('script');
       yt.src = 'https://www.youtube.com/iframe_api';
