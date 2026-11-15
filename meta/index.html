@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TextTonality® | Attract HNW Pre-Liquidity Prospects</title>
+  <meta name="description" content="See the TextTonality® strategy that starts real conversations with pre-liquidity prospects and books meetings on your calendar, guaranteed: 25 in six months, or we work free." />
+
+  <!-- Open Graph (how the link previews on Facebook) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Financial Advisors: Attract HNW Pre-Liquidity Prospects with TextTonality®" />
+  <meta property="og:description" content="25 meetings with pre-liquidity prospects in six months, or we work free. Watch the 4-minute video." />
+  <meta property="og:image" content="https://img.youtube.com/vi/yEjS5cadxwU/hqdefault.jpg" />
+
+  <link rel="preconnect" href="https://www.youtube.com" />
+  <link rel="preconnect" href="https://i.ytimg.com" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tracking: Meta Pixel + LinkedIn Insight Tag (IDs live in assets/tracking.js) -->
+  <script src="assets/tracking.js"></script>
+  <script>
+    window.VSL_CONFIG = {
+      // Booking page the lead form sends visitors to (Calendly is embedded there;
+      // the Calendly link itself is set in book.html)
+      bookingPage: "book.html",
+      // Webhook that receives each lead (name, email, phone, UTMs) the moment
+      // the form is submitted, whether or not they go on to book.
+      // e.g. a Google Apps Script web app URL (see tools/google-sheets-lead-webhook.gs):
+      //   "https://script.google.com/macros/s/XXXX/exec"
+      // or a Zapier "Catch Hook" URL: "https://hooks.zapier.com/hooks/catch/123/abc/"
+      leadWebhookUrl: "https://script.google.com/macros/s/AKfycbzw33zhCvBpzP-HWEXpTxUHq2D4zglaNPjbxtWTWUx64XgiUPWuRxGXS8Tl1DMvq6fx/exec",
+    };
+  </script>
+
+  <style>
+    :root {
+      --ink: #0a0a0a;
+      --muted: #4b5563;
+      --yellow: #facc15;
+      --red: #dc2626;
+      --red-dark: #b91c1c;
+      --blue: #2f4fd8;
+      --footer: #060814;
+      --footer-text: #c7cad3;
+      --footer-muted: #8b8f9c;
+      --maxw: 1120px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      background: linear-gradient(180deg, #f6f7f9 0%, #ffffff 60%);
+      padding: 56px 16px 96px;
+      text-align: center;
+    }
+    .headline {
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.12;
+      font-size: clamp(30px, 4.6vw, 68px);
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+    .headline .hl { color: var(--yellow); }
+    .headline span { display: block; }
+
+    .subhead {
+      margin: 32px auto 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 20px);
+      max-width: 720px;
+      line-height: 1.55;
+    }
+
+    /* ---------- Video ---------- */
+    .video-frame { position: relative; aspect-ratio: 16 / 9; }
+    .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .sound-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      border: 0; padding: 0; margin: 0; cursor: pointer;
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sound-overlay[hidden] { display: none; }
+    .sound-pill {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--red); color: #fff;
+      font: 700 clamp(16px, 2.2vw, 22px)/1 "Inter", system-ui, sans-serif;
+      padding: 16px 26px; border-radius: 999px;
+      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.55);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    .sound-pill svg { width: 26px; height: 26px; }
+    .sound-overlay:hover .sound-pill { background: var(--red-dark); }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+    @media (prefers-reduced-motion: reduce) { .sound-pill { animation: none; } }
+    .video-wrap {
+      max-width: 720px;
+      margin: 40px auto 0;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 0 30px 60px -20px rgba(15, 23, 42, 0.35), 0 12px 24px -12px rgba(15, 23, 42, 0.2);
+    }
+    .sound-note {
+      margin-top: 14px; font-size: 14px; color: var(--muted);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+
+    /* ---------- CTA ---------- */
+    .cta {
+      display: inline-flex; align-items: center; justify-content: center; gap: 18px;
+      margin-top: 36px;
+      background: var(--red);
+      color: #fff; text-decoration: none;
+      font-weight: 700; letter-spacing: -0.02em;
+      font-size: clamp(20px, 2.6vw, 30px);
+      padding: 18px 56px;
+      border-radius: 999px;
+      box-shadow: 0 14px 28px -10px rgba(220, 38, 38, 0.55);
+      transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+      width: 100%; max-width: 500px;
+    }
+    .cta:hover { background: var(--red-dark); transform: translateY(-1px); box-shadow: 0 18px 32px -10px rgba(220, 38, 38, 0.6); }
+    .cta:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    .cta svg { width: 20px; height: 20px; flex: none; }
+    .cta-note { margin-top: 14px; font-size: 14px; color: var(--muted); }
+
+    /* ---------- Lead form modal ---------- */
+    .modal {
+      border: 0; padding: 0; margin: auto;
+      width: min(480px, calc(100% - 32px));
+      border-radius: 18px;
+      background: #fff; color: var(--ink);
+      box-shadow: 0 40px 80px -20px rgba(15, 23, 42, 0.5);
+    }
+    .modal::backdrop { background: rgba(6, 8, 20, 0.72); backdrop-filter: blur(2px); }
+    .modal-body { padding: 36px 32px 28px; position: relative; }
+    .modal-close {
+      position: absolute; top: 12px; right: 12px;
+      width: 36px; height: 36px; border: 0; border-radius: 50%;
+      background: #f3f4f6; color: #374151; font-size: 22px; line-height: 1; cursor: pointer;
+    }
+    .modal-close:hover { background: #e5e7eb; }
+    .modal-step { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red); }
+    .modal h2 { margin-top: 8px; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+    .modal h2 .hl { background: linear-gradient(transparent 62%, rgba(250, 204, 21, 0.55) 62%); }
+    .modal p.sub { margin-top: 8px; color: var(--muted); font-size: 15px; }
+    .field { margin-top: 16px; text-align: left; }
+    .field label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .field input {
+      width: 100%; font: inherit; font-size: 16px;
+      padding: 13px 14px; border: 1.5px solid #d1d5db; border-radius: 10px;
+      background: #fff; color: var(--ink);
+      transition: border-color .15s ease, box-shadow .15s ease;
+    }
+    .field input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(47, 79, 216, 0.18); }
+    .field input[aria-invalid="true"] { border-color: var(--red); }
+    .field .err { display: none; margin-top: 6px; font-size: 13px; color: var(--red); }
+    .field input[aria-invalid="true"] + .err { display: block; }
+    .modal .cta { margin-top: 24px; max-width: none; font-size: 20px; padding: 16px 24px; border: 0; cursor: pointer; font-family: inherit; }
+    .modal .cta[disabled] { opacity: .7; cursor: wait; }
+    .privacy-note { margin-top: 14px; font-size: 12.5px; color: #6b7280; text-align: center; }
+    .privacy-note a { color: inherit; }
+
+    /* ---------- Footer ---------- */
+    footer {
+      background: var(--footer);
+      color: var(--footer-text);
+      padding: 44px 16px 40px;
+    }
+    .footer-inner { max-width: var(--maxw); margin: 0 auto; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .brand { font-size: 26px; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+    .brand sup { color: var(--yellow); font-size: 0.6em; top: -0.55em; position: relative; vertical-align: baseline; }
+    .footer-grid p, .footer-grid li { font-size: 16px; line-height: 1.75; }
+    .footer-grid .muted { color: var(--footer-text); margin-top: 6px; }
+    .footer-grid h4 { color: #fff; font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .footer-grid ul { list-style: none; }
+    .footer-grid a { text-decoration: none; }
+    .footer-grid a:hover { color: #fff; text-decoration: underline; }
+    .phone { color: var(--yellow); font-weight: 700; }
+    .phone:hover { color: var(--yellow) !important; }
+    .disclaimer {
+      margin-top: 26px;
+      font-size: 13px; line-height: 1.6;
+      color: var(--footer-muted);
+      max-width: 1000px;
+    }
+    .copyright { margin-top: 14px; font-size: 13px; color: var(--footer-muted); }
+
+    @media (max-width: 760px) {
+      .hero { padding: 36px 16px 64px; }
+      .headline span { display: inline; }
+      .subhead { margin-top: 20px; }
+      .video-wrap { margin-top: 28px; border-radius: 10px; }
+      .cta { padding: 16px 28px; margin-top: 28px; }
+      .modal-body { padding: 32px 20px 22px; }
+      .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="hero">
+    <h1 class="headline">
+      <span>Financial Advisors:</span>
+      <span>Attract <span class="hl" style="display:inline">HNW Pre-Liquidity Prospects</span></span>
+      <span>with TextTonality®</span>
+    </h1>
+
+    <p class="subhead">
+      See the TextTonality® strategy that starts real conversations with pre-liquidity
+      prospects, follows up by phone, and books meetings on your calendar, guaranteed:
+      25 in six months, or we work free.
+    </p>
+
+    <div class="video-wrap" id="video">
+      <!-- YouTube VSL: https://youtu.be/yEjS5cadxwU -->
+      <div class="video-frame">
+        <iframe id="vsl" src="https://www.youtube.com/embed/yEjS5cadxwU?autoplay=1&mute=1&cc_load_policy=0&iv_load_policy=3&rel=0&modestbranding=1&playsinline=1&enablejsapi=1" title="TextTonality® video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <button class="sound-overlay" id="soundOverlay" type="button" hidden aria-label="Turn on sound and play from the beginning">
+          <span class="sound-pill">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3z" fill="currentColor"/><path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Click for sound
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="sound-note">🔊 Click the video to turn on sound</div>
+
+    <div>
+      <a class="cta" id="ctaBtn" href="book.html">
+        Book A Demo Call
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </main>
+
+  <dialog class="modal" id="leadModal" aria-labelledby="leadTitle">
+    <form class="modal-body" id="leadForm" novalidate>
+      <button class="modal-close" type="button" id="leadClose" aria-label="Close">×</button>
+      <div class="modal-step">Step 1 of 2</div>
+      <h2 id="leadTitle">Where should we send your <span class="hl">call details?</span></h2>
+      <p class="sub">Next, you'll pick a time that works for you.</p>
+
+      <div class="field">
+        <label for="leadName">Full name</label>
+        <input id="leadName" name="name" type="text" autocomplete="name" required />
+        <div class="err">Please enter your name.</div>
+      </div>
+      <div class="field">
+        <label for="leadEmail">Email</label>
+        <input id="leadEmail" name="email" type="email" autocomplete="email" inputmode="email" required />
+        <div class="err">Please enter a valid email.</div>
+      </div>
+      <div class="field">
+        <label for="leadPhone">Phone</label>
+        <input id="leadPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+        <div class="err">Please enter a valid phone number.</div>
+      </div>
+
+      <button class="cta" type="submit" id="leadSubmit">
+        Choose A Time
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <p class="privacy-note">We respect your privacy. See our <a href="legal.html#privacy" target="_blank">Privacy Policy</a>.</p>
+    </form>
+  </dialog>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="brand">TextTonality<sup>®</sup></div>
+          <p class="muted">Legal Business Name: Bluestone Partners LLC</p>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:mike@bluestonepartnersllc.com">mike@bluestonepartnersllc.com</a></li>
+            <li><a class="phone" href="tel:+19412073350">(941) 207-3350</a></li>
+            <li>2 West Market Street, West Chester PA 19382</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="legal.html#privacy">Privacy Policy</a></li>
+            <li><a href="legal.html#terms">Terms of Service</a></li>
+            <li><a href="legal.html#cookies">Cookie Policy</a></li>
+            <li><a href="legal.html#cookie-settings">Cookie Settings</a></li>
+            <li><a href="legal.html#earnings">Earnings Disclaimer</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="disclaimer">
+        Disclaimer: TextTonality is an independent marketing and business development support service.
+        We are not a registered investment advisor (RIA), broker-dealer, or financial institution. Our
+        services are strictly intended for business-to-business (B2B) prospecting and consultation
+        scheduling. This site is not a part of the Meta, Facebook, or Instagram websites or Meta, Inc.
+        Additionally, this site is NOT endorsed by Meta in any way. FACEBOOK is a trademark of META, Inc.
+      </p>
+      <p class="copyright">© <span id="year">2026</span> TextTonality. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var cfg = window.VSL_CONFIG || {};
+      var cta = document.getElementById('ctaBtn');
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      function track(event, params) {
+        if (window.fbq) window.fbq('track', event, params || {});
+      }
+
+      // ---------- Lead capture → Calendly ----------
+      var modal = document.getElementById('leadModal');
+      var form = document.getElementById('leadForm');
+      var f = { name: form.elements.name, email: form.elements.email, phone: form.elements.phone };
+      var STORE = 'tt_lead';
+
+      // Ad tracking params from the landing URL (utm_*, fbclid, li_fat_id)
+      var adParams = {};
+      new URLSearchParams(location.search).forEach(function (v, k) {
+        if (/^utm_|^fbclid$|^li_fat_id$/.test(k)) adParams[k] = v;
+      });
+
+      // Booking page URL, carrying the ad tracking params along.
+      // (Name/email/phone are handed over via localStorage, not the URL,
+      // so they never show up in the ad platforms' page-view data.)
+      function bookingUrl() {
+        var url = new URL(cfg.bookingPage, location.href);
+        Object.keys(adParams).forEach(function (k) { url.searchParams.set(k, adParams[k]); });
+        return url.toString();
+      }
+      cta.href = bookingUrl(); // no-JS fallback
+
+      // Returning visitor: pre-fill what they typed last time
+      try {
+        var saved = JSON.parse(localStorage.getItem(STORE) || 'null');
+        if (saved) { f.name.value = saved.name || ''; f.email.value = saved.email || ''; f.phone.value = saved.phone || ''; }
+      } catch (e) {}
+
+      function openModal(e) {
+        if (!modal.showModal) return; // very old browser: follow the link
+        e.preventDefault();
+        modal.showModal();
+        (f.name.value ? (f.email.value ? (f.phone.value ? document.getElementById('leadSubmit') : f.phone) : f.email) : f.name).focus();
+        track('InitiateCheckout', { content_name: 'Book A Demo Call' });
+      }
+      cta.addEventListener('click', openModal);
+      document.getElementById('leadClose').addEventListener('click', function () { modal.close(); });
+      modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
+
+      function toE164(raw) {
+        var d = raw.replace(/\D/g, '');
+        if (raw.trim().charAt(0) === '+') return '+' + d;
+        if (d.length === 10) return '+1' + d;
+        if (d.length === 11 && d.charAt(0) === '1') return '+' + d;
+        return '+' + d;
+      }
+      function check(input, ok) { input.setAttribute('aria-invalid', ok ? 'false' : 'true'); return ok; }
+      function validate() {
+        var digits = f.phone.value.replace(/\D/g, '');
+        var ok = [
+          check(f.name, f.name.value.trim().length >= 2),
+          check(f.email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(f.email.value.trim())),
+          check(f.phone, digits.length >= 10 && digits.length <= 15)
+        ];
+        var firstBad = [f.name, f.email, f.phone][ok.indexOf(false)];
+        if (firstBad) firstBad.focus();
+        return ok.indexOf(false) === -1;
+      }
+      ['name', 'email', 'phone'].forEach(function (k) {
+        f[k].addEventListener('input', function () { f[k].removeAttribute('aria-invalid'); });
+      });
+
+      function sendLead(lead) {
+        if (!cfg.leadWebhookUrl) return;
+        var body = new URLSearchParams();
+        body.set('name', lead.name);
+        body.set('first_name', lead.name.split(/\s+/)[0]);
+        body.set('last_name', lead.name.split(/\s+/).slice(1).join(' '));
+        body.set('email', lead.email);
+        body.set('phone', lead.phoneE164);
+        body.set('source', 'TextTonality VSL - Meta');
+        body.set('page_url', location.origin + location.pathname);
+        body.set('submitted_at', new Date().toISOString());
+        Object.keys(adParams).forEach(function (k) { body.set(k, adParams[k]); });
+        // Form-encoded + no-cors: no CORS preflight, and keepalive lets the
+        // request finish even though we navigate to Calendly right after.
+        try {
+          fetch(cfg.leadWebhookUrl, { method: 'POST', mode: 'no-cors', keepalive: true, body: body });
+        } catch (e) {
+          if (navigator.sendBeacon) navigator.sendBeacon(cfg.leadWebhookUrl, body);
+        }
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!validate()) return;
+        var lead = {
+          name: f.name.value.trim().replace(/\s+/g, ' '),
+          email: f.email.value.trim(),
+          phone: f.phone.value.trim()
+        };
+        lead.phoneE164 = toE164(lead.phone);
+        try { localStorage.setItem(STORE, JSON.stringify({ name: lead.name, email: lead.email, phone: lead.phone, phoneE164: lead.phoneE164 })); } catch (err) {}
+
+        document.getElementById('leadSubmit').disabled = true;
+        sendLead(lead);
+        track('Lead', { content_name: 'Book A Demo Call' });
+        // Short pause so the webhook and pixel requests get out the door
+        setTimeout(function () { location.href = bookingUrl(); }, 350);
+      });
+
+      // Back-button from Calendly: re-enable the form
+      window.addEventListener('pageshow', function () { document.getElementById('leadSubmit').disabled = false; });
+
+      // YouTube player: muted autoplay, captions off, "Click for sound" restarts
+      // from the beginning with sound, plus Meta pixel events.
+      var ytPlayer = null, viewed = false, finished = false, soundOn = false;
+      var overlay = document.getElementById('soundOverlay');
+
+      function captionsOff() {
+        try { ytPlayer.unloadModule('captions'); } catch (e) {}
+        try { ytPlayer.unloadModule('cc'); } catch (e) {}
+      }
+      function markViewed() {
+        if (viewed) return; viewed = true;
+        track('ViewContent', { content_name: 'VSL' });
+      }
+      function hideOverlay() { overlay.hidden = true; }
+
+      overlay.addEventListener('click', function () {
+        if (!ytPlayer) return;
+        soundOn = true;
+        hideOverlay();
+        ytPlayer.unMute();
+        ytPlayer.setVolume(100);
+        ytPlayer.seekTo(0, true);
+        ytPlayer.playVideo();
+        markViewed();
+      });
+
+      var prevReady = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = function () {
+        if (prevReady) prevReady();
+        ytPlayer = new YT.Player('vsl', { events: {
+          onReady: function () {
+            captionsOff();
+            if (ytPlayer.isMuted()) overlay.hidden = false;
+            // If they unmute with YouTube's own controls, drop our button
+            var watch = setInterval(function () {
+              if (soundOn || !ytPlayer.isMuted()) { soundOn = true; hideOverlay(); clearInterval(watch); }
+            }, 500);
+          },
+          onStateChange: function (e) {
+            if (e.data === YT.PlayerState.PLAYING) {
+              captionsOff();
+              if (!ytPlayer.isMuted()) markViewed();
+            }
+            if (e.data === YT.PlayerState.ENDED && !finished) {
+              finished = true; track('CompleteRegistration', { content_name: 'VSL watched' });
+            }
+          }
+        } });
+      };
+      var yt = document.createElement('script');
+      yt.src = 'https://www.youtube.com/iframe_api';
+      document.body.appendChild(yt);
+    })();
+  </script>
+</body>
+</html>
