@@ -12,6 +12,7 @@
  * (keeps the same URL).
  */
 
+var SCRIPT_VERSION = 'v2 (Meta Leads tab)';
 var SHEET_NAME = 'Leads';            // main site (LinkedIn ads)
 var META_SHEET_NAME = 'Meta Leads';  // Meta ads site (source ends in "- Meta")
 var COLUMNS = [
@@ -24,7 +25,7 @@ var COLUMNS = [
 function doGet() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var msg = ss
-    ? 'OK: lead webhook is live and connected to the sheet "' + ss.getName() + '".'
+    ? 'OK: lead webhook ' + SCRIPT_VERSION + ' is live and connected to the sheet "' + ss.getName() + '".'
     : 'NOT CONNECTED: this script is not attached to a Google Sheet. ' +
       'Open your sheet, go to Extensions > Apps Script, paste the script there, and deploy it from there.';
   return ContentService.createTextOutput(msg);
