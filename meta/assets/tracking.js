@@ -5,7 +5,8 @@
  * Set your IDs here once; every page that includes this file picks them up.
  */
 window.TRACKING_CONFIG = {
-  // Meta (Facebook) Pixel ID, e.g. "123456789012345" (leave empty to disable)
+  // Leave empty on this site: the Meta Pixel base code (ID 400712735043923)
+  // is pasted directly in each page's <head>. Setting it here would load it twice.
   metaPixelId: "",
   // LinkedIn Insight Tag partner ID
   linkedinPartnerId: "",
