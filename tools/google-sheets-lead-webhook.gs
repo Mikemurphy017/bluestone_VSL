@@ -12,7 +12,8 @@
  * (keeps the same URL).
  */
 
-var SHEET_NAME = 'Leads';
+var SHEET_NAME = 'Leads';            // main site (LinkedIn ads)
+var META_SHEET_NAME = 'Meta Leads';  // Meta ads site (source ends in "- Meta")
 var COLUMNS = [
   'submitted_at', 'name', 'first_name', 'last_name', 'email', 'phone',
   'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
@@ -34,12 +35,13 @@ function doPost(e) {
   lock.waitLock(10000);
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
+    var p = (e && e.parameter) || {};
+    var tab = /- Meta$/.test(p.source || '') ? META_SHEET_NAME : SHEET_NAME;
+    var sheet = ss.getSheetByName(tab) || ss.insertSheet(tab);
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(COLUMNS);
       sheet.setFrozenRows(1);
     }
-    var p = (e && e.parameter) || {};
     sheet.appendRow(COLUMNS.map(function (c) {
       var v = p[c] || '';
       // Stop Sheets from treating values like "+16105551234" or "=..." as formulas
