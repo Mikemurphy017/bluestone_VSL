@@ -189,6 +189,33 @@ src="https://www.facebook.com/tr?id=400712735043923&ev=PageView&noscript=1"
     .field input[aria-invalid="true"] + .err { display: block; }
     .modal .cta { margin-top: 24px; max-width: none; font-size: 20px; padding: 16px 24px; border: 0; cursor: pointer; font-family: inherit; }
     .modal .cta[disabled] { opacity: .7; cursor: wait; }
+    .fit-note { margin-top: 12px; font-size: 14px; font-weight: 600; color: var(--ink); text-align: center; }
+
+    /* ---------- How it works ---------- */
+    .how { max-width: 720px; margin: 72px auto 0; text-align: center; }
+    .proof { font-size: clamp(17px, 2.2vw, 21px); color: var(--muted); }
+    .proof strong { color: var(--ink); font-weight: 800; }
+    .how h2 { margin-top: 36px; font-size: clamp(24px, 3.2vw, 34px); font-weight: 800; letter-spacing: -0.02em; }
+    .steps { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 12px; text-align: left; }
+    .steps li {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 14px; padding: 18px 20px;
+      box-shadow: 0 8px 20px -14px rgba(15, 23, 42, 0.25);
+    }
+    .steps .num {
+      flex: none; width: 34px; height: 34px; border-radius: 50%;
+      background: var(--ink); color: var(--yellow); font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .steps strong { display: block; font-size: 17px; }
+    .steps span:not(.num) { display: block; margin-top: 2px; color: var(--muted); font-size: 15px; }
+    .guarantee {
+      margin-top: 28px; padding: 22px 24px; border-radius: 16px;
+      background: var(--ink); color: #fff;
+      box-shadow: 0 18px 36px -18px rgba(15, 23, 42, 0.6);
+    }
+    .guarantee .g-label { display: block; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--yellow); }
+    .guarantee strong { display: block; margin-top: 6px; font-size: clamp(20px, 3vw, 28px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
     .privacy-note { margin-top: 14px; font-size: 12.5px; color: #6b7280; text-align: center; }
     .privacy-note a { color: inherit; }
 
@@ -231,6 +258,8 @@ src="https://www.facebook.com/tr?id=400712735043923&ev=PageView&noscript=1"
       .video-wrap { margin-top: 28px; border-radius: 10px; }
       .cta { padding: 16px 28px; margin-top: 28px; }
       .modal-body { padding: 32px 20px 22px; }
+      .how { margin-top: 52px; }
+      .steps li { padding: 16px; }
       .footer-grid { grid-template-columns: 1fr; gap: 24px; }
     }
   </style>
@@ -265,11 +294,30 @@ src="https://www.facebook.com/tr?id=400712735043923&ev=PageView&noscript=1"
     <div class="sound-note">🔊 Click the video to turn on sound</div>
 
     <div>
-      <a class="cta" id="ctaBtn" href="book.html">
-        Book A Demo Call
+      <a class="cta" id="ctaBtn" href="book.html" data-open-lead>
+        See If You Qualify
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
     </div>
+
+    <section class="how" aria-labelledby="howTitle">
+      <p class="proof">Over <strong>$1.5B in new assets</strong> booked for advisors since 2021</p>
+      <h2 id="howTitle">How it works</h2>
+      <ol class="steps">
+        <li><span class="num">1</span><div><strong>Targeted outreach</strong><span>We start real conversations with pre-liquidity prospects who fit your ideal client.</span></div></li>
+        <li><span class="num">2</span><div><strong>Follow-up by phone</strong><span>Our team calls interested prospects so warm leads don't go cold.</span></div></li>
+        <li><span class="num">3</span><div><strong>Meetings on your calendar</strong><span>Qualified prospects are booked straight onto your calendar.</span></div></li>
+      </ol>
+      <div class="guarantee">
+        <span class="g-label">Our guarantee</span>
+        <strong>25 meetings in six months, or we work free</strong>
+      </div>
+      <!-- Testimonials: add real client quotes here (name, firm, result) once approved. Do not use placeholder or invented testimonials. -->
+      <a class="cta" id="ctaBtn2" href="book.html" data-open-lead>
+        See If You Qualify
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </section>
   </main>
 
   <dialog class="modal" id="leadModal" aria-labelledby="leadTitle">
@@ -299,6 +347,7 @@ src="https://www.facebook.com/tr?id=400712735043923&ev=PageView&noscript=1"
         Choose A Time
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </button>
+      <p class="fit-note">No pitch. A 15-minute fit check with our team.</p>
       <p class="privacy-note">We respect your privacy. See our <a href="legal.html#privacy" target="_blank">Privacy Policy</a>.</p>
     </form>
   </dialog>
@@ -371,7 +420,8 @@ src="https://www.facebook.com/tr?id=400712735043923&ev=PageView&noscript=1"
         Object.keys(adParams).forEach(function (k) { url.searchParams.set(k, adParams[k]); });
         return url.toString();
       }
-      cta.href = bookingUrl(); // no-JS fallback
+      var ctas = document.querySelectorAll('[data-open-lead]');
+      ctas.forEach(function (b) { b.href = bookingUrl(); }); // no-JS fallback
 
       // Returning visitor: pre-fill what they typed last time
       try {
@@ -384,9 +434,9 @@ src="https://www.facebook.com/tr?id=400712735043923&ev=PageView&noscript=1"
         e.preventDefault();
         modal.showModal();
         (f.name.value ? (f.email.value ? (f.phone.value ? document.getElementById('leadSubmit') : f.phone) : f.email) : f.name).focus();
-        track('InitiateCheckout', { content_name: 'Book A Demo Call' });
+        track('InitiateCheckout', { content_name: 'See If You Qualify' });
       }
-      cta.addEventListener('click', openModal);
+      ctas.forEach(function (b) { b.addEventListener('click', openModal); });
       document.getElementById('leadClose').addEventListener('click', function () { modal.close(); });
       modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
 
@@ -447,7 +497,8 @@ src="https://www.facebook.com/tr?id=400712735043923&ev=PageView&noscript=1"
 
         document.getElementById('leadSubmit').disabled = true;
         sendLead(lead);
-        track('Lead', { content_name: 'Book A Demo Call' });
+        track('Lead', { content_name: 'See If You Qualify' });
+        track('SubmitApplication', { content_name: 'See If You Qualify' });
         // Short pause so the webhook and pixel requests get out the door
         setTimeout(function () { location.href = bookingUrl(); }, 350);
       });
